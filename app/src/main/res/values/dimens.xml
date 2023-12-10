@@ -1,0 +1,13 @@
+<resources>
+      <dimen name="fab_margin">16dp</dimen>
+      <dimen name="Usuario_Height">200dp</dimen>
+      <dimen name="Usuario_Translation">80dp</dimen>
+      <dimen name="TextSize">40sp</dimen>
+      <dimen name="TextTransaltion">95dp</dimen>
+      <dimen name="EditText_Height">48dp</dimen>
+      <dimen name="Radius0">0dp</dimen>
+      <dimen name="EditText_Translation">95dp</dimen>
+      <dimen name="Transaltion100">100dp</dimen>
+      <dimen name="ButtonTranslation">100dp</dimen>
+
+</resources>
