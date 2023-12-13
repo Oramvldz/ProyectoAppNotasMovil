@@ -19,6 +19,7 @@
 
     <EditText
         android:id="@+id/edt_email"
+        android:maxLength="100"
         android:layout_width="match_parent"
         android:layout_height="@dimen/EditText_Height"
         android:ems="10"
@@ -29,6 +30,7 @@
     <EditText
         android:id="@+id/edt_pass"
         android:layout_width="match_parent"
+        android:maxLength="30"
         android:layout_height="@dimen/EditText_Height"
         android:ems="10"
         android:hint="@string/Contraseña"
@@ -38,6 +40,7 @@
     <EditText
         android:id="@+id/edt_nombres"
         android:layout_width="match_parent"
+        android:maxLength="50"
         android:layout_height="@dimen/EditText_Height"
         android:ems="10"
         android:hint="@string/Nombres"
@@ -47,6 +50,7 @@
     <EditText
         android:id="@+id/edt_apellidos"
         android:layout_width="match_parent"
+        android:maxLength="50"
         android:layout_height="@dimen/EditText_Height"
         android:ems="10"
         android:hint="@string/Apellidos"

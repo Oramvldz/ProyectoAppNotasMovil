@@ -36,44 +36,82 @@ public class RegistroActivity extends AppCompatActivity {
         edt_nombres=findViewById(R.id.edt_nombres);
         edt_apellidos=findViewById(R.id.edt_apellidos);
     }
+    public boolean validar()
+    {
+        boolean retorno =true;
+
+        String c1,c2,c3,c4;
+        c1=edt_email.getText().toString();
+        c2=edt_pass.getText().toString();
+        c3=edt_nombres.getText().toString();
+        c4=edt_apellidos.getText().toString();
+
+        if(c1.isEmpty())
+        {
+            edt_email.setError("Este campo no puede estar vacio");
+            retorno=false;
+        }
+        if(c2.isEmpty())
+        {
+            edt_pass.setError("Este campo no puede estar vacio");
+            retorno=false;
+
+        }
+        if(c3.isEmpty())
+        {
+            edt_nombres.setError("Este campo no puede estar vacio");
+            retorno=false;
+
+        }
+        if(c4.isEmpty())
+        {
+            edt_apellidos.setError("Este campo no puede estar vacio");
+            retorno=false;
+        }
+        return retorno;
+    }
 
     public void siguiente (View view)
     {
-        String url="https://proyectoappnotastallerfic.000webhostapp.com/ApiRegistro";
-        StringRequest PostRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject=new JSONObject(response);
-                    String status= jsonObject.getString("status");
-                    if(jsonObject.getString("status").equals("201"))
-                    {
-                        Toast.makeText(RegistroActivity.this,"Recurso Añadido con exito",Toast.LENGTH_LONG).show();
-                        Intent intent =new Intent(getApplicationContext(),LoginActivity.class);
-                        startActivity(intent);
-                    }
-                } catch (JSONException e) {
-                    Log.e("Error",e.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(RegistroActivity.this,"Error el email que trataste de añadir esta duplicado",Toast.LENGTH_LONG).show();
-            }
-        })
+        if(validar())
         {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams(){
-                Map<String,String>params =new HashMap<>();
-                params.put("Email",edt_email.getText().toString());
-                params.put("Pass",edt_pass.getText().toString());
-                params.put("Nombres",edt_nombres.getText().toString());
-                params.put("Apellidos",edt_apellidos.getText().toString());
-                return params;
-            }
-        };
-        Volley.newRequestQueue(this).add(PostRequest);
+            String url="https://proyectoappnotastallerfic.000webhostapp.com/ApiRegistro";
+            StringRequest PostRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject=new JSONObject(response);
+                        String status= jsonObject.getString("status");
+                        if(jsonObject.getString("status").equals("201"))
+                        {
+                            Toast.makeText(RegistroActivity.this,"Recurso Añadido con exito",Toast.LENGTH_LONG).show();
+                            Intent intent =new Intent(getApplicationContext(),LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    } catch (JSONException e) {
+                        Log.e("Error",e.getMessage());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(RegistroActivity.this,"Error el email que trataste de añadir esta duplicado",Toast.LENGTH_LONG).show();
+                }
+            })
+            {
+                @Nullable
+                @Override
+                protected Map<String, String> getParams(){
+                    Map<String,String>params =new HashMap<>();
+                    params.put("Email",edt_email.getText().toString());
+                    params.put("Pass",edt_pass.getText().toString());
+                    params.put("Nombres",edt_nombres.getText().toString());
+                    params.put("Apellidos",edt_apellidos.getText().toString());
+                    return params;
+                }
+            };
+            Volley.newRequestQueue(this).add(PostRequest);
+        }
+        }
+
     }
-}

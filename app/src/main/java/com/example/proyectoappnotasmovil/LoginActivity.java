@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +23,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
 public class LoginActivity extends AppCompatActivity {
     EditText edt_email1,edt_pass1;
 
@@ -33,6 +33,25 @@ public class LoginActivity extends AppCompatActivity {
         edt_email1=findViewById(R.id.edt_email1);
         edt_pass1=findViewById(R.id.edt_pass1);
     }
+    public boolean validar()
+    {
+        boolean retorno=true;
+        String c1,c2;
+        c1=edt_email1.getText().toString();
+        c2=edt_pass1.getText().toString();
+
+        if(c1.isEmpty())
+        {
+            edt_email1.setError("Este campo no puede estar vacio");
+            retorno=false;
+        }
+        if(c2.isEmpty())
+        {
+            edt_pass1.setError("Este campo no puede estar vacio");
+            retorno=false;
+        }
+        return retorno;
+    }
     public void Registro(View view)
     {
     Intent siguiente=new Intent(this,RegistroActivity.class);
@@ -41,38 +60,51 @@ public class LoginActivity extends AppCompatActivity {
 
     public void Login(View view)
     {
-        /*
-        Intent siguiente =new Intent (this, LoginActivity.class);
-        startActivity(siguiente);
-         */
-        String url="https://proyectoappnotastallerfic.000webhostapp.com/ApiLogin";
-        StringRequest PostRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray jsonArray=new JSONArray(response);
-                    Toast.makeText(LoginActivity.this,"Iniciando sesion",Toast.LENGTH_LONG).show();
-
-                } catch (JSONException e) {
-                    Log.e("Error",e.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(LoginActivity.this,"Error",Toast.LENGTH_LONG).show();
-            }
-        })
+        if(validar())
         {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams(){
-                Map<String,String>params =new HashMap<>();
-                params.put("Email",edt_email1.getText().toString());
-                params.put("Pass",edt_pass1.getText().toString());
-                return params;
-            }
-        };
-        Volley.newRequestQueue(this).add(PostRequest);
+            String url="https://proyectoappnotastallerfic.000webhostapp.com/ApiLogin";
+            StringRequest PostRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONArray jsonArray=new JSONArray(response);
+                        //VARIABLES DE LOGIN
+                        SharedPreferences prefs = getSharedPreferences("shared_login_data",getApplicationContext().MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        JSONObject jsonObject=new JSONObject(jsonArray.get(0).toString());
+                        //EDITANDO PARA METER DATOS
+                        String IdString=jsonObject.getString("Id");
+                        int Id=Integer.parseInt(IdString);
+                        editor.putInt("Id",Id);
+                        editor.putString("Nombres",jsonObject.getString("Nombres"));
+                        editor.putString("Email",jsonObject.getString("Email"));
+                        editor.commit();
+                        //INTENCION HACIA LA SIGUIENTE PANTALLA
+                        Intent siguiente =new Intent (getApplicationContext(),MisNotasActivity.class);
+                        startActivity(siguiente);
+                        Toast.makeText(LoginActivity.this,"Iniciando sesion",Toast.LENGTH_SHORT).show();
+
+                    } catch (JSONException e) {
+                        Log.e("Error",e.getMessage());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(LoginActivity.this,"Error",Toast.LENGTH_SHORT).show();
+                }
+            })
+            {
+                @Nullable
+                @Override
+                protected Map<String, String> getParams(){
+                    Map<String,String>params =new HashMap<>();
+                    params.put("Email",edt_email1.getText().toString());
+                    params.put("Pass",edt_pass1.getText().toString());
+                    return params;
+                }
+            };
+            Volley.newRequestQueue(this).add(PostRequest);
+        }
     }
 }
