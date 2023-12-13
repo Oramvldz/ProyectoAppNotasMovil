@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".VerNotaActivity">
+
+    <EditText
+        android:id="@+id/edt_titulo1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:maxLength="500"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Nombre" />
+
+    <EditText
+        android:id="@+id/edt_contenido1"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:maxLength="1000"
+        android:hint="Nota"
+        android:gravity="top"
+        android:textSize="20dp"
+        />
+
+    <Button
+        android:id="@+id/btn_EditarNota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/ButtonColor"
+        android:onClick="CrearNota"
+        android:text="Editar Nota"
+        app:cornerRadius="0dp" />
+
+    <Button
+        android:id="@+id/btn_BorrarNota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/ButtonColor"
+        android:onClick="CrearNota"
+        android:text="Eliminar Nota"
+        app:cornerRadius="0dp" />
+
+</LinearLayout>
