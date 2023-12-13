@@ -15,6 +15,9 @@
         android:theme="@style/Theme.ProyectoAppNotasMovil"
         tools:targetApi="31">
         <activity
+            android:name=".EditarNotaActivity"
+            android:exported="false" />
+        <activity
             android:name=".VerNotaActivity"
             android:exported="false" />
         <activity
