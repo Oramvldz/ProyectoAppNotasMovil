@@ -1,15 +1,39 @@
 package com.example.proyectoappnotasmovil;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import  androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class MisNotasActivity extends AppCompatActivity {
+
+    private ArrayList<Nota> ListaNotas;
+    private RequestQueue rq;
+    private RecyclerView Rv1;
+
+    private AdaptadorNota AdaptadorNota;
+
     //TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +45,93 @@ public class MisNotasActivity extends AppCompatActivity {
         String Id=String.valueOf(Idint);
         textView.setText(Id);
          */
+        ListaNotas= new ArrayList<>();
+        rq= Volley.newRequestQueue(this);
+        CargarNota();
+
+        Rv1=findViewById(R.id.Rv1);
+        LinearLayoutManager Linearlayout =new LinearLayoutManager(this);
+        Rv1.setLayoutManager(Linearlayout);
+
+        AdaptadorNota=new AdaptadorNota();
+        Rv1.setAdapter(AdaptadorNota);
+
+
+    }
+
+    private void CargarNota() {
+        SharedPreferences prefs = getSharedPreferences("shared_login_data",getApplicationContext().MODE_PRIVATE);
+        int Id=prefs.getInt("Id",0);
+        String url="https://proyectoappnotastallerfic.000webhostapp.com/MisNotas/SeleccionarNotas/"+Id;
+
+        StringRequest getRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray Notas= new JSONArray(response);
+                    JSONObject Onotas= new JSONObject();
+                    for (int i=0; i<Notas.length(); i++){
+                        Onotas=Notas.getJSONObject(i);
+                        String Titulo=Onotas.getString("Titulo");
+                        String Contenido=Onotas.getString("Contenido");
+
+                        Nota nota= new Nota(Titulo, Contenido);
+                        ListaNotas.add(nota);
+
+                        AdaptadorNota.notifyItemRangeInserted(ListaNotas.size(), 1);
+
+                    };
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        rq.add(getRequest);
+
     }
 
     public void CrearNota(View view)
     {
         Intent intent= new Intent(this,CrearNotaActivity.class);
         startActivity(intent);
+    }
+
+    private class AdaptadorNota extends RecyclerView.Adapter<AdaptadorNota.AdaptadorNotaHolder>{
+
+        @NonNull
+        @Override
+        public AdaptadorNotaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new AdaptadorNotaHolder(getLayoutInflater().inflate(R.layout.layout_nota, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull AdaptadorNotaHolder holder, int position) {
+            holder.imprimir(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return ListaNotas.size();
+        }
+
+        class AdaptadorNotaHolder extends RecyclerView.ViewHolder{
+            TextView tvTitulo, tvContenido;
+            public AdaptadorNotaHolder(@NonNull View itemView) {
+                super(itemView);
+                tvTitulo=itemView.findViewById(R.id.tvTitulo);
+                tvContenido=itemView.findViewById(R.id.tvContenido);
+            }
+
+            public void imprimir(int position) {
+              tvTitulo.setText("Titulo: "+ListaNotas.get(position).getTitulo());
+              tvContenido.setText("Contenido: "+ListaNotas.get(position).getContenido());
+            }
+        }
+
     }
 }
