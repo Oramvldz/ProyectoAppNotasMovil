@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -102,20 +103,22 @@ public class MisNotasActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
+            case R.id.Perfil:
+                Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.CerrarSesion:
-
+                Toast.makeText(this, "Cerrar Sesion", Toast.LENGTH_SHORT).show();
                 break;
 
         }
         return super.onOptionsItemSelected(item);
     }
-    NO FUNCIONA
-    */
+
     public void CrearNota(View view)
     {
         Intent intent= new Intent(this,CrearNotaActivity.class);
