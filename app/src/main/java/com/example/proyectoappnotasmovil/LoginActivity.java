@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         edt_email1=findViewById(R.id.edt_email1);
         edt_pass1=findViewById(R.id.edt_pass1);
     }
+
     public boolean validar()
     {
         boolean retorno=true;

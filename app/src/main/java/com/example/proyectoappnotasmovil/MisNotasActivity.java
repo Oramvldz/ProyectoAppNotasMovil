@@ -5,10 +5,12 @@ import  androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,7 +25,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class MisNotasActivity extends AppCompatActivity {
@@ -39,7 +40,8 @@ public class MisNotasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_notas);
-        /*textView=findViewById(R.id.textView3);
+        /*
+        textView=findViewById(R.id.textView3);
         SharedPreferences prefs = getSharedPreferences("shared_login_data",Context.MODE_PRIVATE);
         int Idint=prefs.getInt("Id",0);
         String Id=String.valueOf(Idint);
@@ -55,8 +57,6 @@ public class MisNotasActivity extends AppCompatActivity {
 
         AdaptadorNota=new AdaptadorNota();
         Rv1.setAdapter(AdaptadorNota);
-
-
     }
 
     private void CargarNota() {
@@ -80,7 +80,7 @@ public class MisNotasActivity extends AppCompatActivity {
 
                         AdaptadorNota.notifyItemRangeInserted(ListaNotas.size(), 1);
 
-                    };
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -95,6 +95,27 @@ public class MisNotasActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    /*
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.CerrarSesion:
+
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    NO FUNCIONA
+    */
     public void CrearNota(View view)
     {
         Intent intent= new Intent(this,CrearNotaActivity.class);
@@ -132,6 +153,12 @@ public class MisNotasActivity extends AppCompatActivity {
               tvContenido.setText("Contenido: "+ListaNotas.get(position).getContenido());
             }
         }
-
     }
+
+    public void Refrescar(View view)
+    {
+        Intent intent= new Intent(this, MisNotasActivity.class);
+        startActivity(intent);
+    }
+
 }
