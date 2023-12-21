@@ -86,6 +86,7 @@ public class RegistroActivity extends AppCompatActivity {
                         {
                             Toast.makeText(RegistroActivity.this,"Recurso Añadido con exito",Toast.LENGTH_LONG).show();
                             Intent intent =new Intent(getApplicationContext(),LoginActivity.class);
+                            BorrarHistorialActivitys(intent);
                             startActivity(intent);
                         }
                     } catch (JSONException e) {
@@ -113,5 +114,8 @@ public class RegistroActivity extends AppCompatActivity {
             Volley.newRequestQueue(this).add(PostRequest);
         }
         }
-
+    public void BorrarHistorialActivitys(Intent intent){
+        //Con esto se borra el historial de activity osea no me dejara ir para atras una vez cierre sesion
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    }
     }

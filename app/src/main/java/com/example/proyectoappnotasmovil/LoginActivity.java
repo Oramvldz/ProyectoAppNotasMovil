@@ -81,10 +81,10 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("Email",jsonObject.getString("Email"));
                         editor.commit();
                         //INTENCION HACIA LA SIGUIENTE PANTALLA
-                        Intent siguiente =new Intent (getApplicationContext(),MisNotasActivity.class);
-                        startActivity(siguiente);
                         Toast.makeText(LoginActivity.this,"Iniciando sesion",Toast.LENGTH_SHORT).show();
-
+                        Intent siguiente =new Intent (getApplicationContext(),MisNotasActivity.class);
+                        BorrarHistorialActivitys(siguiente);
+                        startActivity(siguiente);
                     } catch (JSONException e) {
                         Log.e("Error",e.getMessage());
                     }
@@ -107,5 +107,9 @@ public class LoginActivity extends AppCompatActivity {
             };
             Volley.newRequestQueue(this).add(PostRequest);
         }
+    }
+    public void BorrarHistorialActivitys(Intent intent){
+        //Con esto se borra el historial de activity osea no me dejara ir para atras una vez cierre sesion
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 }

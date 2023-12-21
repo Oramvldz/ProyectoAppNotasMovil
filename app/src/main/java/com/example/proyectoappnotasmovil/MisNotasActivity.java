@@ -1,13 +1,16 @@
 package com.example.proyectoappnotasmovil;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import  androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -109,14 +112,23 @@ public class MisNotasActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.Perfil:
-                Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
+                Intent Perfil=new Intent(this,PerfilActivity.class);
+                startActivity(Perfil);
                 break;
             case R.id.CerrarSesion:
-                Toast.makeText(this, "Cerrar Sesion", Toast.LENGTH_SHORT).show();
+                SharedPreferences prefs = getSharedPreferences("shared_login_data",getApplicationContext().MODE_PRIVATE);
+                prefs.edit().clear().commit();
+                Intent CerrarSesion=new Intent(this,LoginActivity.class);
+                BorrarHistorialActivitys(CerrarSesion);
+                startActivity(CerrarSesion);
                 break;
 
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void BorrarHistorialActivitys(Intent intent){
+        //Con esto se borra el historial de activity osea no me dejara ir para atras una vez cierre sesion
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 
     public void CrearNota(View view)
