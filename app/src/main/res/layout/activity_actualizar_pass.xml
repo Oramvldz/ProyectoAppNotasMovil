@@ -6,14 +6,54 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ActualizarPassActivity">
-    <EditText
-        android:id="@+id/edt_CambiarPass"
+
+    <TextView
+        android:id="@+id/txt_Credenciales_Pass"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Validar credenciales"
+        android:textSize="40dp"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        />
+
+    <EditText
+        android:id="@+id/edt_EmailCredenciales_Pass"
+        android:layout_width="match_parent"
+        android:maxLength="100"
+        android:hint="@string/Email"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/edt_PassCredenciales_Pass"
+        android:layout_width="match_parent"
+        android:maxLength="30"
         android:layout_height="48dp"
         android:hint="@string/Contraseña"
         android:ems="10"
-        android:inputType="textEmailAddress"
-        android:layout_marginTop="200dp"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/txt_Contraseña_Nueva"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/ContraseñaNueva"
+        android:gravity="center"
+        android:textSize="40dp"
+        />
+
+    <EditText
+        android:id="@+id/edt_CambiarPass"
+        android:layout_width="match_parent"
+        android:maxLength="30"
+        android:layout_height="48dp"
+        android:hint="@string/ContraseñaNueva"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:layout_marginTop="20dp"
         />
 
     <Button
@@ -21,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/ButtonColor"
-        android:onClick="siguiente"
+        android:onClick="Actualizar"
         android:text="@string/Actualizar"
         app:cornerRadius="0dp" />
 

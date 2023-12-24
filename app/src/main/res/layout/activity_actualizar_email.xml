@@ -7,14 +7,53 @@
     android:orientation="vertical"
     tools:context=".ActualizarEmailActivity">
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Validar credenciales"
+        android:textSize="40dp"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        />
+
+    <EditText
+        android:id="@+id/edt_EmailCredenciales"
+        android:layout_width="match_parent"
+        android:maxLength="100"
+        android:hint="@string/Email"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/edt_PassCredenciales"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:maxLength="30"
+        android:hint="@string/Contraseña"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/EmailNuevo"
+        android:gravity="center"
+        android:textSize="40dp"
+        />
+
     <EditText
         android:id="@+id/edt_CambiarEmail"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="@string/Email"
+        android:maxLength="100"
+        android:hint="@string/EmailNuevo"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="20dp"
         />
 
     <Button
@@ -25,4 +64,5 @@
         android:onClick="Actualizar"
         android:text="@string/Actualizar"
         app:cornerRadius="0dp" />
+
 </LinearLayout>

@@ -7,7 +7,9 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="Email">Email</string>
+    <string name="EmailNuevo">Email Nuevo</string>
     <string name="Contraseña">Contraseña</string>
+    <string name="ContraseñaNueva">Contraseña nueva</string>
     <string name="Nombres">Nombres</string>
     <string name="Apellidos">Apellidos</string>
     <string name="Incio_Sesion">Iniciar Sesion</string>

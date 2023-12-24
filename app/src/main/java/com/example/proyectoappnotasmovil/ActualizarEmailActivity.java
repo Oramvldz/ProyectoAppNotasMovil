@@ -15,26 +15,44 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ActualizarEmailActivity extends AppCompatActivity {
-    EditText Edt_ActualizarEmail;
+    EditText Edt_ActualizarEmail,Edt_EmailAntiguo,Edt_ContraseñaAntigua;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualizar_email);
         Edt_ActualizarEmail=findViewById(R.id.edt_CambiarEmail);
+        Edt_EmailAntiguo=findViewById(R.id.edt_EmailCredenciales);
+        Edt_ContraseñaAntigua=findViewById(R.id.edt_PassCredenciales);
     }
 
     public boolean validar()
     {
         String c1=Edt_ActualizarEmail.getText().toString();
+        String c2=Edt_EmailAntiguo.getText().toString();
+        String c3=Edt_ContraseñaAntigua.getText().toString();
         boolean retorno=true;
 
         if(c1.isEmpty())
         {
             Edt_ActualizarEmail.setError("Este campo no puede estar vacio");
+            retorno=false;
+        }
+        if(c2.isEmpty())
+        {
+            Edt_EmailAntiguo.setError("Este campo no puede estar vacio");
+            retorno=false;
+        }
+        if(c3.isEmpty())
+        {
+            Edt_ContraseñaAntigua.setError("Este campo no puede estar vacio");
             retorno=false;
         }
         return retorno;
@@ -52,6 +70,7 @@ public class ActualizarEmailActivity extends AppCompatActivity {
             StringRequest postrequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+
                     Intent intent =new Intent(getApplicationContext(),MisNotasActivity.class);
                     startActivity(intent);
                     Toast.makeText(ActualizarEmailActivity.this,"Recurso Actualizado",Toast.LENGTH_SHORT).show();
@@ -59,12 +78,32 @@ public class ActualizarEmailActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(ActualizarEmailActivity.this,"Error",Toast.LENGTH_SHORT).show();
+                    try {
+                        String responseBody=new String(error.networkResponse.data,"utf-8");
+                        JSONObject jsonObject = new JSONObject( responseBody );
+                        if(jsonObject.getInt("status")==404)
+                        {
+                            Toast.makeText(ActualizarEmailActivity.this,"Error, credenciales no validas",Toast.LENGTH_SHORT).show();
+                        }else if(jsonObject.getInt("status")==409)
+                        {
+                            Toast.makeText(ActualizarEmailActivity.this,"El email ya existe, intente con otro",Toast.LENGTH_SHORT).show();
+                        }else
+                        {
+                            Toast.makeText(ActualizarEmailActivity.this,"El servidor no esta disponible en este momento",Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (UnsupportedEncodingException e) {
+
+                    } catch (JSONException e) {
+
+                    }
                 }
             })
             {
                 protected Map<String, String> getParams(){
                     Map<String,String>params=new HashMap<>();
+                    params.put("EmailAntiguo",Edt_EmailAntiguo.getText().toString());
+                    params.put("PassAntigua",Edt_ContraseñaAntigua.getText().toString());
                     params.put("Email",Edt_ActualizarEmail.getText().toString());
                     return params;
                 }

@@ -16,7 +16,7 @@ public class PerfilActivity extends AppCompatActivity {
         editText=findViewById(R.id.editTextText);
         editText.setText("HOLA");
     }
-/*
+
     public void ActualizarEmail(View view)
     {
         Intent intent =new Intent(this,ActualizarEmailActivity.class);
@@ -26,5 +26,5 @@ public class PerfilActivity extends AppCompatActivity {
     public void ActualizarPass(View view){
         Intent intent=new Intent(this,ActualizarPassActivity.class);
         startActivity(intent);
-    }*/
+    }
 }

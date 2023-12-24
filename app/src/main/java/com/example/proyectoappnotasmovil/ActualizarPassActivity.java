@@ -15,46 +15,94 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ActualizarPassActivity extends AppCompatActivity {
-    EditText ActualizarPass;
+    EditText Edt_ActualizarPass,Edt_EmailAntiguo,Edt_ContraseñaAntigua;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualizar_pass);
-        ActualizarPass=findViewById(R.id.edt_CambiarPass);
+        Edt_ActualizarPass=findViewById(R.id.edt_CambiarPass);
+        Edt_EmailAntiguo=findViewById(R.id.edt_EmailCredenciales_Pass);
+        Edt_ContraseñaAntigua=findViewById(R.id.edt_PassCredenciales_Pass);
     }
-
-    public void siguiente(View view)
+    public boolean validar()
     {
-        //Obteniendo la variable y pasandola a string por que asi lo pide la api
-        SharedPreferences prefs = getSharedPreferences("shared_login_data",getApplicationContext().MODE_PRIVATE);
-        int Id=prefs.getInt("Id",0);
+        String c1=Edt_ActualizarPass.getText().toString();
+        String c2=Edt_EmailAntiguo.getText().toString();
+        String c3=Edt_ContraseñaAntigua.getText().toString();
+        boolean retorno=true;
 
-        String url="https://proyectoappnotastallerfic.000webhostapp.com/ApiActualizarPass/"+Id;
-
-        StringRequest postrequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Intent intent =new Intent(getApplicationContext(),MisNotasActivity.class);
-                startActivity(intent);
-                Toast.makeText(ActualizarPassActivity.this,"Recurso Actualizado",Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ActualizarPassActivity.this,"Error",Toast.LENGTH_SHORT).show();
-            }
-        })
+        if(c1.isEmpty())
         {
-            protected Map<String, String> getParams(){
-                Map<String,String>params=new HashMap<>();
-                params.put("Pass",ActualizarPass.getText().toString());
-                return params;
-            }
-        };
-        Volley.newRequestQueue(this).add(postrequest);
+            Edt_ActualizarPass.setError("Este campo no puede estar vacio");
+            retorno=false;
+        }
+        if(c2.isEmpty())
+        {
+            Edt_EmailAntiguo.setError("Este campo no puede estar vacio");
+            retorno=false;
+        }
+        if(c3.isEmpty())
+        {
+            Edt_ContraseñaAntigua.setError("Este campo no puede estar vacio");
+            retorno=false;
+        }
+        return retorno;
+    }
+    public void Actualizar(View view)
+    {
+        if(validar())
+        {
+            //Obteniendo la variable y pasandola a string por que asi lo pide la api
+            SharedPreferences prefs = getSharedPreferences("shared_login_data",getApplicationContext().MODE_PRIVATE);
+            int Id=prefs.getInt("Id",0);
+
+            String url="https://proyectoappnotastallerfic.000webhostapp.com/ApiActualizarPass/"+Id;
+
+            StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Intent intent =new Intent(getApplicationContext(),MisNotasActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(ActualizarPassActivity.this,"Recurso Actualizado",Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        String responseBody=new String(error.networkResponse.data,"utf-8");
+                        JSONObject jsonObject=new JSONObject(responseBody);
+                        if(jsonObject.getInt("status")==404)
+                        {
+                            Toast.makeText(ActualizarPassActivity.this,"Error, credenciales no validas",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(ActualizarPassActivity.this,"El servidor no esta disponible en este momento",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            })
+            {
+                protected Map<String, String> getParams(){
+                    Map<String,String>params=new HashMap<>();
+                    params.put("EmailAntiguo",Edt_EmailAntiguo.getText().toString());
+                    params.put("PassAntigua",Edt_ContraseñaAntigua.getText().toString());
+                    params.put("Pass",Edt_ActualizarPass.getText().toString());
+                    return params;
+                }
+            };
+            Volley.newRequestQueue(this).add(request);
+        }
+
     }
 }

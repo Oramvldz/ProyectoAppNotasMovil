@@ -31,4 +31,18 @@
         android:layout_height="wrap_content"
         android:ems="10"
         />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="ActualizarEmail"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="ActualizarPass"
+        android:text="Button" />
 </LinearLayout>
