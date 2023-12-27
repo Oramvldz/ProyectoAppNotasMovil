@@ -8,28 +8,31 @@
     tools:context=".PerfilActivity" >
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/et_Nombres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
+        android:ems="10"
         android:enabled="false"
-        android:ems="10"
         android:inputType="text"
         />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/et_Apellidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:enabled="false"
         android:inputType="text"
         />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/et_Correo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:enabled="false"
+        android:inputType="textEmailAddress"
         />
 
     <Button
@@ -45,4 +48,5 @@
         android:layout_height="wrap_content"
         android:onClick="ActualizarPass"
         android:text="Button" />
+
 </LinearLayout>
