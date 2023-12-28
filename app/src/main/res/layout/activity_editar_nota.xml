@@ -8,7 +8,7 @@
     tools:context=".EditarNotaActivity">
 
     <EditText
-        android:id="@+id/edt_titulo2"
+        android:id="@+id/edt_titulo"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
@@ -18,7 +18,7 @@
         android:hint="Nombre" />
 
     <EditText
-        android:id="@+id/edt_contenido2"
+        android:id="@+id/edt_contenido"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_marginTop="40dp"
@@ -31,11 +31,21 @@
         />
 
     <Button
-        android:id="@+id/btn_IngresarContenido"
+        android:id="@+id/btn_Modificar_Contenido"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/ButtonColor"
-        android:text="Ingresar Contenido"
+        android:onClick="Accion_Modificar"
+        android:text="Modificar Contenido"
+        app:cornerRadius="0dp" />
+
+    <Button
+        android:id="@+id/btn_Delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/ButtonColor"
+        android:onClick="Accion_Eliminar"
+        android:text="Eliminar Nota"
         app:cornerRadius="0dp" />
 
 </LinearLayout>

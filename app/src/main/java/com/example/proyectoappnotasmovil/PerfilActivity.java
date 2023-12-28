@@ -36,9 +36,6 @@ public class PerfilActivity extends AppCompatActivity {
 
     public void Perfil()
     {
-
-        Toast.makeText(PerfilActivity.this,"entro",Toast.LENGTH_SHORT).show();
-
         SharedPreferences prefs = getSharedPreferences("shared_login_data",getApplicationContext().MODE_PRIVATE);
         int Id=prefs.getInt("Id",0);
         String url="https://proyectoappnotastallerfic.000webhostapp.com/ApiPerfil/"+Id;

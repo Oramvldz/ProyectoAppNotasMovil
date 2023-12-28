@@ -3,6 +3,7 @@ package com.example.proyectoappnotasmovil;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import  androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,8 +80,8 @@ public class MisNotasActivity extends AppCompatActivity {
                         Onotas=Notas.getJSONObject(i);
                         String Titulo=Onotas.getString("Titulo");
                         String Contenido=Onotas.getString("Contenido");
-
-                        Nota nota= new Nota(Titulo, Contenido);
+                        int Id=Integer.parseInt(Onotas.getString("Id"));
+                        Nota nota= new Nota(Titulo, Contenido,Id);
                         ListaNotas.add(nota);
 
                         AdaptadorNota.notifyItemRangeInserted(ListaNotas.size(), 1);
@@ -147,7 +149,9 @@ public class MisNotasActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull AdaptadorNotaHolder holder, int position) {
+            Nota nota= ListaNotas.get(position);
             holder.imprimir(position);
+            holder.nota=nota;
         }
 
         @Override
@@ -155,14 +159,26 @@ public class MisNotasActivity extends AppCompatActivity {
             return ListaNotas.size();
         }
 
-        class AdaptadorNotaHolder extends RecyclerView.ViewHolder{
+        class AdaptadorNotaHolder extends RecyclerView.ViewHolder
+        {
             TextView tvTitulo, tvContenido;
+            Nota nota;
             public AdaptadorNotaHolder(@NonNull View itemView) {
                 super(itemView);
                 tvTitulo=itemView.findViewById(R.id.tvTitulo);
                 tvContenido=itemView.findViewById(R.id.tvContenido);
+                    //OnClickListener de modificar y eliminar nota
+                itemView.findViewById(R.id.CardView).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MisNotasActivity.this,EditarNotaActivity.class);
+                        intent.putExtra("IdNota",nota.getId());
+                        intent.putExtra("Titulo",nota.getTitulo());
+                        intent.putExtra("Contenido",nota.getContenido());
+                        startActivity(intent);
+                    }
+                });
             }
-
             public void imprimir(int position) {
               tvTitulo.setText("Titulo: "+ListaNotas.get(position).getTitulo());
               tvContenido.setText("Contenido: "+ListaNotas.get(position).getContenido());

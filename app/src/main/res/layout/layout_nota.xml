@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:backgroundTint="@color/App"
     app:cardCornerRadius="10dp"
     app:cardElevation="5dp">
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:layout_gravity="end"
-        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,5 +27,6 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textSize="18sp" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
