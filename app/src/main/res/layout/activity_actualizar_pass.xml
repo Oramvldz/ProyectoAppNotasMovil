@@ -18,7 +18,7 @@
         />
 
     <EditText
-        android:id="@+id/edt_EmailCredenciales_Pass"
+        android:id="@+id/edt_EmailCredenciales"
         android:layout_width="match_parent"
         android:maxLength="100"
         android:hint="@string/Email"
@@ -27,7 +27,7 @@
         android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/edt_PassCredenciales_Pass"
+        android:id="@+id/edt_PassCredenciales"
         android:layout_width="match_parent"
         android:maxLength="30"
         android:layout_height="48dp"

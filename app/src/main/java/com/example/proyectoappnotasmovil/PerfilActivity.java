@@ -25,9 +25,9 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
-        Edt_nombres=findViewById(R.id.et_Nombres);
-        Edt_apellidos=findViewById(R.id.et_Apellidos);
-        Edt_correo=findViewById(R.id.et_Correo);
+        Edt_nombres=findViewById(R.id.edt_Nombres);
+        Edt_apellidos=findViewById(R.id.edt_Apellidos);
+        Edt_correo=findViewById(R.id.edt_Correo);
 
         //llamar al metodo perfil
         Perfil();

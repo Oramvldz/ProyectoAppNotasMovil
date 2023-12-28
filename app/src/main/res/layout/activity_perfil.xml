@@ -8,7 +8,7 @@
     tools:context=".PerfilActivity" >
 
     <EditText
-        android:id="@+id/et_Nombres"
+        android:id="@+id/edt_Nombres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
@@ -18,7 +18,7 @@
         />
 
     <EditText
-        android:id="@+id/et_Apellidos"
+        android:id="@+id/edt_Apellidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -27,7 +27,7 @@
         />
 
     <EditText
-        android:id="@+id/et_Correo"
+        android:id="@+id/edt_Correo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -36,17 +36,22 @@
         />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_ActualizarEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="ActualizarEmail"
-        android:text="Button" />
+        android:text="Actualizar Email"
+        app:cornerRadius="0dp"
+        android:backgroundTint="@color/ButtonColor"
+        />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btn_ActualizaPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="ActualizarPass"
-        android:text="Button" />
-
+        android:text="Actualizar Contraseña"
+        app:cornerRadius="0dp"
+        android:backgroundTint="@color/ButtonColor"
+        />
 </LinearLayout>
