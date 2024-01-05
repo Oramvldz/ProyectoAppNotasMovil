@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,7 +97,22 @@ public class RegistroActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(RegistroActivity.this,"Error el email que trataste de añadir esta duplicado",Toast.LENGTH_LONG).show();
+                    try {
+                        String responseBody=new String(error.networkResponse.data,"utf-8");
+                        JSONObject jsonObject=new JSONObject(responseBody);
+                        if(jsonObject.getInt("status")==409)
+                        {
+                            Toast.makeText(RegistroActivity.this,"El email que trataste de añadir esta duplicado",Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(RegistroActivity.this, "El servidor no esta disponible en este momento", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             })
             {

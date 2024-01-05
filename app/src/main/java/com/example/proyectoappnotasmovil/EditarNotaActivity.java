@@ -80,7 +80,6 @@ public class EditarNotaActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Toast.makeText(EditarNotaActivity.this, "Recurso actualizado con exito", Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(EditarNotaActivity.this,MisNotasActivity.class);
-                BorrarHistorialActivitys(intent);
                 startActivity(intent);
             }
         }, new Response.ErrorListener() {
@@ -111,7 +110,6 @@ public class EditarNotaActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Toast.makeText(EditarNotaActivity.this,"Recurso eliminado correctamente",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(EditarNotaActivity.this,MisNotasActivity.class);
-                BorrarHistorialActivitys(intent);
                 startActivity(intent);
             }
         }, new Response.ErrorListener() {
@@ -121,10 +119,6 @@ public class EditarNotaActivity extends AppCompatActivity {
             }
         });
         Volley.newRequestQueue(EditarNotaActivity.this).add(getRequest);
-    }
-    public void BorrarHistorialActivitys(Intent intent){
-        //Con esto se borra el historial de activity osea no me dejara ir para atras una vez cierre sesion
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 }
 

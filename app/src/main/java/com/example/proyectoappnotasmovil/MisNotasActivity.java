@@ -118,11 +118,20 @@ public class MisNotasActivity extends AppCompatActivity {
                 startActivity(Perfil);
                 break;
             case R.id.CerrarSesion:
-                SharedPreferences prefs = getSharedPreferences("shared_login_data",getApplicationContext().MODE_PRIVATE);
-                prefs.edit().clear().commit();
-                Intent CerrarSesion=new Intent(this,LoginActivity.class);
-                BorrarHistorialActivitys(CerrarSesion);
-                startActivity(CerrarSesion);
+                new AlertDialog.Builder(this)
+                        .setTitle("¿Cerrrar Sesion?")
+                        .setMessage("¿Esta seguro que desea cerrar sesion?")
+                        .setNegativeButton("No", null)
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences prefs = getSharedPreferences("shared_login_data",getApplicationContext().MODE_PRIVATE);
+                                prefs.edit().clear().commit();
+                                Intent CerrarSesion=new Intent(getApplicationContext(),LoginActivity.class);
+                                BorrarHistorialActivitys(CerrarSesion);
+                                startActivity(CerrarSesion);
+                            }
+                        }).create().show();
                 break;
 
         }
@@ -192,4 +201,18 @@ public class MisNotasActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("¿Salir?")
+                .setMessage("¿Estas seguro que deseas salir?")
+                .setNegativeButton("No", null)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        SharedPreferences prefs = getSharedPreferences("shared_login_data",getApplicationContext().MODE_PRIVATE);
+                        prefs.edit().clear().commit();
+                        finish(); //finaliza Activity.
+                    }
+                }).create().show();
+    }
 }

@@ -69,14 +69,13 @@ public class CrearNotaActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     Intent intent =new Intent(getApplicationContext(),MisNotasActivity.class);
-                    BorrarHistorialActivitys(intent);
                     startActivity(intent);
                     Toast.makeText(CrearNotaActivity.this,"Recurso creado correctamente",Toast.LENGTH_SHORT).show();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(CrearNotaActivity.this,"Error",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CrearNotaActivity.this,"El servidor no esta disponible en este momento",Toast.LENGTH_SHORT).show();
                 }
             })
             {
@@ -90,9 +89,5 @@ public class CrearNotaActivity extends AppCompatActivity {
             };
             Volley.newRequestQueue(this).add(postrequest);
         }
-        }
-        public void BorrarHistorialActivitys(Intent intent){
-            //Con esto se borra el historial de activity osea no me dejara ir para atras una vez cierre sesion
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         }
     }

@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
@@ -92,7 +93,21 @@ public class LoginActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(LoginActivity.this,"Error",Toast.LENGTH_SHORT).show();
+                    try {
+                        String responseBody=new String(error.networkResponse.data,"utf-8");
+                        JSONObject jsonObject=new JSONObject(responseBody);
+                        if(jsonObject.getInt("status")==404)
+                        {
+                            Toast.makeText(LoginActivity.this, "Credenciales invalidas", Toast.LENGTH_SHORT).show();
+                        }else
+                        {
+                            Toast.makeText(LoginActivity.this, "El servidor no esta disponible en este momento", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             })
             {
