@@ -70,6 +70,7 @@ public class ActualizarPassActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     Intent intent =new Intent(getApplicationContext(),MisNotasActivity.class);
+                    BorrarHistorialActivitys(intent);
                     startActivity(intent);
                     Toast.makeText(ActualizarPassActivity.this,"Recurso Actualizado",Toast.LENGTH_SHORT).show();
                 }
@@ -104,5 +105,9 @@ public class ActualizarPassActivity extends AppCompatActivity {
             Volley.newRequestQueue(this).add(request);
         }
 
+    }
+    public void BorrarHistorialActivitys(Intent intent){
+        //Con esto se borra el historial de activity osea no me dejara ir para atras una vez cierre sesion
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 }

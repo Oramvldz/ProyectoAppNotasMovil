@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,12 +81,35 @@ public class EditarNotaActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Toast.makeText(EditarNotaActivity.this, "Recurso actualizado con exito", Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(EditarNotaActivity.this,MisNotasActivity.class);
+                BorrarHistorialActivitys(intent);
                 startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(EditarNotaActivity.this,"El servidor no esta disponible en este momento",Toast.LENGTH_SHORT).show();
+                try {
+                    String responseBody=new String(error.networkResponse.data,"utf-8");
+                    JSONObject jsonObject=new JSONObject(responseBody);
+
+                    if(jsonObject.getInt("status")==404)
+                    {
+                        Toast.makeText(EditarNotaActivity.this, "Esta nota ya fue eliminada con anterioridad", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(EditarNotaActivity.this, MisNotasActivity.class);
+                        BorrarHistorialActivitys(intent);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Toast.makeText(EditarNotaActivity.this,"El servidor no esta disponible en este momento",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(EditarNotaActivity.this, MisNotasActivity.class);
+                        BorrarHistorialActivitys(intent);
+                        startActivity(intent);
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         })
         {
@@ -110,15 +134,43 @@ public class EditarNotaActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Toast.makeText(EditarNotaActivity.this,"Recurso eliminado correctamente",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(EditarNotaActivity.this,MisNotasActivity.class);
+                BorrarHistorialActivitys(intent);
                 startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(EditarNotaActivity.this,"El servidor no esta disponible por el momento",Toast.LENGTH_SHORT).show();
+                try {
+                    String responseBody=new String(error.networkResponse.data,"utf-8");
+                    JSONObject jsonObject=new JSONObject(responseBody);
+
+                    if(jsonObject.getInt("status")==404)
+                    {
+                        Toast.makeText(EditarNotaActivity.this, "Esta nota ya fue eliminada con anterioridad", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(EditarNotaActivity.this, MisNotasActivity.class);
+                        BorrarHistorialActivitys(intent);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Toast.makeText(EditarNotaActivity.this,"El servidor no esta disponible en este momento",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(EditarNotaActivity.this, MisNotasActivity.class);
+                        BorrarHistorialActivitys(intent);
+                        startActivity(intent);
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         Volley.newRequestQueue(EditarNotaActivity.this).add(getRequest);
+    }
+
+    public void BorrarHistorialActivitys(Intent intent){
+        //Con esto se borra el historial de activity osea no me dejara ir para atras una vez cierre sesion
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     }
 }
 

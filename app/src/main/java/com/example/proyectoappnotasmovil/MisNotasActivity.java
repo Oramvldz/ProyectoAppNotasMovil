@@ -6,7 +6,9 @@ import  androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,23 +41,19 @@ public class MisNotasActivity extends AppCompatActivity {
     private RequestQueue rq;
     private RecyclerView Rv1;
 
+    boolean refresh=false;
     private AdaptadorNota AdaptadorNota;
 
-    //TextView textView;
+
+    SwipeRefreshLayout SwipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_notas);
-        /*
-        textView=findViewById(R.id.textView3);
-        SharedPreferences prefs = getSharedPreferences("shared_login_data",Context.MODE_PRIVATE);
-        int Idint=prefs.getInt("Id",0);
-        String Id=String.valueOf(Idint);
-        textView.setText(Id);
-         */
+
         ListaNotas= new ArrayList<>();
         rq= Volley.newRequestQueue(this);
-        CargarNota();
+        CargarNotas(refresh);
 
         Rv1=findViewById(R.id.Rv1);
         LinearLayoutManager Linearlayout =new LinearLayoutManager(this);
@@ -63,9 +61,25 @@ public class MisNotasActivity extends AppCompatActivity {
 
         AdaptadorNota=new AdaptadorNota();
         Rv1.setAdapter(AdaptadorNota);
-    }
 
-    private void CargarNota() {
+        SwipeRefreshLayout= findViewById(R.id.swipeRefreshLayout);
+
+        SwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh=true;
+                CargarNotas(refresh);
+                SwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+    private void CargarNotas(boolean refresh) {
+        if(refresh==true)
+        {
+            ListaNotas.clear();
+            AdaptadorNota.notifyDataSetChanged();
+        }
+
         SharedPreferences prefs = getSharedPreferences("shared_login_data",getApplicationContext().MODE_PRIVATE);
         int Id=prefs.getInt("Id",0);
         String url="https://proyectoappnotastallerfic.000webhostapp.com/MisNotas/SeleccionarNotas/"+Id;
@@ -82,8 +96,8 @@ public class MisNotasActivity extends AppCompatActivity {
                         String Contenido=Onotas.getString("Contenido");
                         int Id=Integer.parseInt(Onotas.getString("Id"));
                         Nota nota= new Nota(Titulo, Contenido,Id);
-                        ListaNotas.add(nota);
 
+                        ListaNotas.add(nota);
                         AdaptadorNota.notifyItemRangeInserted(ListaNotas.size(), 1);
 
                     }
@@ -98,7 +112,7 @@ public class MisNotasActivity extends AppCompatActivity {
             }
         });
         rq.add(getRequest);
-
+        refresh=false;
     }
 
     @Override
@@ -194,13 +208,7 @@ public class MisNotasActivity extends AppCompatActivity {
             }
         }
     }
-
-    public void Refrescar(View view)
-    {
-        Intent intent= new Intent(this, MisNotasActivity.class);
-        startActivity(intent);
-    }
-
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)

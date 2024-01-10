@@ -78,8 +78,8 @@ public class LoginActivity extends AppCompatActivity {
                         String IdString=jsonObject.getString("Id");
                         int Id=Integer.parseInt(IdString);
                         editor.putInt("Id",Id);
-                        editor.putString("Nombres",jsonObject.getString("Nombres"));
-                        editor.putString("Email",jsonObject.getString("Email"));
+                        //editor.putString("Nombres",jsonObject.getString("Nombres"));
+                        //editor.putString("Email",jsonObject.getString("Email"));
                         editor.commit();
                         //INTENCION HACIA LA SIGUIENTE PANTALLA
                         Toast.makeText(LoginActivity.this,"Iniciando sesion",Toast.LENGTH_SHORT).show();

@@ -23,26 +23,23 @@
         app:layout_constraintVertical_bias="0.96"
         app:srcCompat="@drawable/baseline_add_24" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Rv1"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="409dp"
         android:layout_height="643dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/Btn_refrescar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:backgroundTint="@color/Red"
-        android:clickable="true"
-        android:onClick="Refrescar"
-        app:fabCustomSize="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_Agg_Nota"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.959"
-        app:srcCompat="@drawable/baseline_refresh_24" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Rv1"
+            android:layout_width="409dp"
+            android:layout_height="643dp"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
